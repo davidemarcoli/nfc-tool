@@ -1,44 +1,17 @@
 import React from "react";
 import NfcManager, {NdefRecord, NfcTech, TagEvent} from "react-native-nfc-manager";
-import {SafeAreaView, ScrollView, StatusBar, Text, TouchableOpacity, useColorScheme, View} from "react-native";
-import {Colors} from "react-native/Libraries/NewAppScreen";
-import {Button, IconButton, Surface} from "react-native-paper";
+import {Text} from "react-native";
+import {Button, Surface} from "react-native-paper";
 
 export default function ReadPage() {
-    const [isNfcSupported, setIsNfcSupported] = React.useState(false);
-    const [isNfcEnabled, setIsNfcEnabled] = React.useState(false);
     const [isReading, setIsReading] = React.useState(false);
     const [tag, setTag] = React.useState<TagEvent>();
 
-    const isDarkMode = useColorScheme() === 'dark';
-
-    // function bin2String(array: string[]) {
-    //     console.log(array);
-    //     let result = "";
-    //     for (let i = 0; i < array.length; i++) {
-    //         result += String.fromCharCode(parseInt(array[i], 2));
-    //     }
-    //     return result;
-    // }
-
-    React.useEffect(() => {
-        NfcManager.isSupported().then(supported => {
-            setIsNfcSupported(supported);
-            if (supported) {
-                NfcManager.isEnabled().then(enabled => {
-                    setIsNfcEnabled(enabled);
-                });
-            }
-        });
-    }, []);
-
     const getTextFromNdef = (ndefMessage: NdefRecord[]) => {
-        const texts = ndefMessage.map(record => {
+        return ndefMessage.map(record => {
             const payload = record.payload.slice(3);
             return String.fromCharCode.apply(null, payload);
         });
-
-        return texts;
 
         // const text = ndefMessage[0].payload.slice(3);
         // return String.fromCharCode.apply(null, text);
@@ -101,8 +74,6 @@ export default function ReadPage() {
                         justifyContent: 'center',
                     }}>
 
-                    <Text>Is NFC supported? {isNfcSupported ? 'Yes' : 'No'}</Text>
-                    <Text>Is NFC enabled? {isNfcEnabled ? 'Yes' : 'No'}</Text>
                     <Text>Is reading? {isReading ? 'Yes' : 'No'}</Text>
                     <Text>Tag: {JSON.stringify(tag)}</Text>
                     {/*<Text>Text: {tag ? getTextFromNdef(tag.ndefMessage) : ''}</Text>*/}
