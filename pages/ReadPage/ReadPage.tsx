@@ -2,6 +2,7 @@ import React from "react";
 import NfcManager, {NdefRecord, NfcTech, TagEvent} from "react-native-nfc-manager";
 import {SafeAreaView, ScrollView, StatusBar, Text, TouchableOpacity, useColorScheme, View} from "react-native";
 import {Colors} from "react-native/Libraries/NewAppScreen";
+import {Button, IconButton, Surface} from "react-native-paper";
 
 export default function ReadPage() {
     const [isNfcSupported, setIsNfcSupported] = React.useState(false);
@@ -10,10 +11,6 @@ export default function ReadPage() {
     const [tag, setTag] = React.useState<TagEvent>();
 
     const isDarkMode = useColorScheme() === 'dark';
-
-    const backgroundStyle = {
-        backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-    };
 
     // function bin2String(array: string[]) {
     //     console.log(array);
@@ -84,17 +81,17 @@ export default function ReadPage() {
     }
 
     return (
-        <SafeAreaView style={backgroundStyle}>
-            <StatusBar
-                barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-                backgroundColor={backgroundStyle.backgroundColor}
-                animated={true}
-                // hidden={true}
-            />
-            <ScrollView
-                contentInsetAdjustmentBehavior="automatic"
-                style={backgroundStyle}>
-                <View
+        // <SafeAreaView style={backgroundStyle}>
+        //     <StatusBar
+        //         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+        //         backgroundColor={backgroundStyle.backgroundColor}
+        //         animated={true}
+        //         // hidden={true}
+        //     />
+        //     <ScrollView
+        //         contentInsetAdjustmentBehavior="automatic"
+        //         style={backgroundStyle}>
+                <Surface
                     style={{
                         // backgroundColor: isDarkMode ? Colors.black : Colors.white,
                         width: '100%',
@@ -115,12 +112,16 @@ export default function ReadPage() {
                         <Text key={index}>{text}</Text>
                     ))}
 
-                    <TouchableOpacity onPress={readNdef}>
-                        <Text>Scan a Tag</Text>
-                    </TouchableOpacity>
+                    {/*<Button onPress={readNdef}>*/}
+                    {/*    <Text>Scan a Tag</Text>*/}
+                    {/*</Button>*/}
 
-                </View>
-            </ScrollView>
-        </SafeAreaView>
+                    <Button onPress={readNdef} icon="nfc">
+                        <Text>Scan a Tag</Text>
+                    </Button>
+
+                </Surface>
+        //     </ScrollView>
+        // </SafeAreaView>
     );
 }
